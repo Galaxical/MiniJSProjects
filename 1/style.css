@@ -1,0 +1,20 @@
+#green{
+    background-color: green;
+}
+
+#red{
+    background-color: red;
+}
+
+
+
+#blue{
+    background-color: blue;
+}
+
+button{
+    border-radius: 5px;
+    inline-size: 100px;
+    block-size: 40px;
+    margin: 5px;
+}
