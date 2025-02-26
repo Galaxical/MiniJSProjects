@@ -9,6 +9,7 @@ let items = []
 //As we are putting our items inside a div, we will access the div by using the following code
 const itemsDiv = document.getElementById ("items")
 const input = document.getElementById("itemInput")
+const storageKey = "items";
 
 function renderItems() {
     itemsDiv.innerHTML = null;
@@ -46,27 +47,36 @@ function renderItems() {
         container.appendChild(text)
         container.appendChild(button)
 
-
-
-
-        //However, we need to know the position of the item on the list in order to 
-
-
         //Add it to the div
 
         itemsDiv.appendChild(container)
     }
 }
 
-renderItems()
 
-function loadItems() {}
+function loadItems() {
+    //we will get what has been stored as part of the storage key
 
-function saveItems() {}
+    const oldItems = localStorage.getItem(storageKey)
+
+    //then convert to an array that is outputable on JS
+
+    if (oldItems) items = JSON.parse(oldItems) //parse will convert the str to a JS object said array
+    renderItems()
+}
+
+function saveItems() {
+
+    
+    //We will take our array items[] and convert it to string before storing it as localStorage
+    const stringItems = JSON.stringify(items);
+    localStorage.setItem(storageKey, stringItems) //We are using storageKey to map strItems so as to keep up to date the dataType to be stored in the localStorage
+
+}
 
 function addItem() {
 
-    //we will further get the value of the itemsinput
+    //we will further get the value of the itemsInput
     const value = input.value;
 
     if(!value){
@@ -77,6 +87,7 @@ function addItem() {
     items.push(value)
     renderItems()
     input.value = ""
+    saveItems()
 }
 
 
@@ -87,4 +98,8 @@ function removeItems(idx) {
     //We update the screen by rendering the items
 
     renderItems()
+
+    saveItems()
 }
+
+document.addEventListener("DOMContentLoaded", loadItems)
